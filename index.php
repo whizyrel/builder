@@ -35,7 +35,7 @@
 
             <div class="console">
                 <div>
-                    <button class="addNewChapter">Add Chapter</button>
+                    <button class="addNew">Add More</button>
                     <button class="submit">Submit</button>
                     <button class="download"><a class='downloadFile' download>Download</a></button>
                 </div>

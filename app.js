@@ -4,44 +4,37 @@
     let dataHandler, UIHandler, mainHandler;
 
     dataHandler = (() => {
-        let book;
+        let book, state;
 
-        book = {
-            "title": '',
-            "chapters": [
-                {
-                    "name": '',
-                    "verses": [
-
-                    ]
-                }
-            ]
+        state = {
+            "bookTitle": '',
+            "chapterNo": ' ',
+            "verses": [ ]
         };
+
+        book = [
+            {
+                "bookTitle": '',
+                "chapterNo": ' ',
+                "verses": [ ]
+            }
+        ];
 
         return {
             addVerse: obj => {
                 // {bookTitle: "", chapterNumber: "", verse: ""}
-                book.chapters[book.chapters.length - 1].verses.push(obj.verse);
-            },
-            addNewChapter: () => {
-                let chapter;
-
-                chapter = {
-                    "name": '',
-                    "verses": [
-
-                    ]
-                };
-
-                book.chapters.push(chapter);
+                book[book.length - 1].verses.push(obj.verse);
             },
             addTitle: (obj) => {
                 // {bookTitle: "", chapterNumber: "", verse: ""}
-                book.title = obj.bookTitle;
+                book[book.length - 1].bookTitle = obj.bookTitle;
             },
             addChapterNo: (obj) => {
                 // {bookTitle: "", chapterNumber: "", verse: ""}
-                book.chapters[book.chapters.length - 1].name = `Chapter ${parseInt(obj.chapterNumber)}`;
+                book[book.length - 1].chapterNo = `Chapter-${parseInt(obj.chapterNumber)}`;
+            },
+            addNew : () => {
+                book.push(state);
             },
             downloadFile: (book) => {
                 // get file
@@ -75,11 +68,11 @@
         DOMStrings = {
             errorBox: '.errorBox',
             addVerseButton: '.addButton',
-            addNewChapter: '.addNewChapter',
             titleBox: '.title',
             addChapterNo: '.addChapterNo',
             chapterBox: '.chapterNumber',
             verseBox: '.verse',
+            addMore: '.addNew',
             submitButton: '.submit',
             downloadButton: '.download',
             downloadFile: '.downloadFile',
@@ -138,15 +131,15 @@
 
     // @ts-ignore
     mainHandler = ((dtCtrl, UICtrl) => {
-        let setEventListener, sumbitData, addVerses, UIStrings, addNewChapter, addChapterNo, download;
+        let setEventListener, sumbitData, addVerses, UIStrings, addChapterNo, addNew, download;
 
         UIStrings = UICtrl.getDOMStrings();
 
         setEventListener = ()=> {
             document.querySelector(UIStrings.submitButton).addEventListener('click', sumbitData);
             document.querySelector(UIStrings.addVerseButton).addEventListener('click', addVerses);
-            document.querySelector(UIStrings.addNewChapter).addEventListener('click', addNewChapter);
             document.querySelector(UIStrings.addChapterNo).addEventListener('click', addChapterNo);
+            document.querySelector(UIStrings.addMore).addEventListener('click', addNew);
             document.querySelector(UIStrings.downloadButton).addEventListener('click', download);
         };
 
@@ -168,10 +161,10 @@
             UICtrl.clearVerseField();
         };
 
-        addNewChapter = () => {
-            // call add chapter method that adds a new chapter to data structure
-            dtCtrl.addNewChapter();
-            UICtrl.clearChapterField();
+        addNew = () => {
+            dtCtrl.addTitle(UICtrl.getInput());
+            dtCtrl.addNew();
+            UICtrl.clearFields();
         };
 
         sumbitData = () => {
