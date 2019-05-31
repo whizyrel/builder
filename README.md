@@ -1,2 +1,2 @@
 # builder
-just some joke, an helper to construct a JSON
+An helper to construct a JSON file for Bible Books
